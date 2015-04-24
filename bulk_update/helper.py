@@ -13,9 +13,9 @@ def _get_db_type(field, connection):
     if isinstance(field, (models.PositiveSmallIntegerField,
                           models.PositiveIntegerField)):
         # integer CHECK ("points" >= 0)'
-        return field.db_type(connection).split(' ', 1)[0]
+        return field.db_type(connection=connection).split(' ', 1)[0]
 
-    res = field.db_type(connection)
+    res = field.db_type(connection=connection)
     return res
 
 
@@ -106,7 +106,7 @@ def bulk_update(objs, meta=None, update_fields=None, exclude_fields=None,
                 case_clause['params'].extend(
                     [obj.pk,
                      field.get_db_prep_value(
-                         getattr(obj, field.attname), connection)])
+                         getattr(obj, field.attname), connection=connection)])
 
         if pks:
             values = ', '.join(
