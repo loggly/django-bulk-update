@@ -36,11 +36,18 @@ def bulk_update(objs, meta=None, update_fields=None, exclude_fields=None,
                 using='default', batch_size=None):
     assert batch_size is None or batch_size > 0
 
+    obj_count = None
     # if we have a QuerySet, avoid loading objects into memory
     if isinstance(objs, QuerySet):
-        batch_size = batch_size or objs.count()
+        obj_count = objs.count()
+        batch_size = batch_size or obj_count
     else:
-        batch_size = batch_size or len(objs)
+        obj_count = len(objs)
+        batch_size = batch_size or obj_count
+
+    # If there are not objects to update just exit.
+    if obj_count == 0:
+        return
 
     connection = connections[using]
     if meta is None:
