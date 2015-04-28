@@ -5,7 +5,7 @@ Main module with the bulk_update function.
 
 import itertools
 
-from django.db import connections, models
+from django.db import connections, models, transaction
 from django.db.models.query import QuerySet
 
 
