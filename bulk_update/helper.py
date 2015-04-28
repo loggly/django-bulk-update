@@ -5,7 +5,7 @@ Main module with the bulk_update function.
 
 import itertools
 
-from django.db import connections, models
+from django.db import connections, models, transaction
 from django.db.models.query import QuerySet
 
 
@@ -139,3 +139,4 @@ def bulk_update(objs, meta=None, update_fields=None, exclude_fields=None,
             del values, pks
 
             connection.cursor().execute(sql, parameters)
+            transaction.commit_unless_managed(using=using)
