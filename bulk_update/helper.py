@@ -146,4 +146,3 @@ def bulk_update(objs, meta=None, update_fields=None, exclude_fields=None,
             del values, pks
 
             connection.cursor().execute(sql, parameters)
-            transaction.commit_unless_managed(using=using)
